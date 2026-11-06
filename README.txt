@@ -1,66 +1,95 @@
-# Wizard's Lair
+# Wizard's Lair 🧙
 
-A text-based adventure game written in Python. You wake up in your own home,
-now warped by a rival wizard's magic, and must explore the house, collect
-seven enchanted items, and confront the wizard in the Parlor before he
-confronts you.
+A Python text-based adventure game where a rival wizard has transformed your home into a dangerous maze. Explore the rooms, collect seven enchanted items, and prepare for a final confrontation in the Parlor.
 
-*Originally built as a class project; rebuilt here with an object-oriented
-design, save/load support, and a test suite.*
+Originally developed as a class project, this version was rebuilt with an object-oriented design, persistent save/load functionality, and automated tests.
 
 ## Features
 
-- **Object-oriented design** — `Room`, `Item`, `Player`, and `Game` classes
-  cleanly separate the world data, player state, and game logic.
-- **Save & load** — progress is saved to `savegame.json` and can be resumed
-  on the next run.
-- **Extra commands** — `map` (see which rooms you've explored),
-  `inventory`/`i`, `look`, and `help`, in addition to `go` and `get`.
-- **Safer input handling** — invalid commands, directions, and item names
-  are handled gracefully instead of crashing.
-- **Confirmation before a fatal mistake** — walking toward the Parlor
-  without all 7 items warns you and asks if you're sure.
-- **Colorized output** via `colorama` (falls back to plain text if it isn't
-  installed).
-- **Unit tested** — 14 tests covering movement, inventory, win/lose
-  conditions, and save/load, using `pytest`.
+- **Object-oriented architecture:** Separate `Room`, `Item`, `Player`, and `Game` classes organize the game world, player state, and game logic.
+- **Exploration:** Navigate interconnected rooms, discover items, and track previously visited locations.
+- **Inventory management:** Collect and review the seven items needed to win.
+- **Save and load:** Save progress to a JSON file and resume a previous game.
+- **Command handling:** Supports movement, item collection, inventory, map, help, save, and exit commands.
+- **Input handling:** Responds to invalid commands and directions without terminating the game.
+- **Game-state logic:** Includes win/loss conditions and a confirmation prompt before entering the final room without all required items.
+- **Optional colored output:** Uses Colorama when installed, with plain-text output as a fallback.
 
-## Running it
+## Technologies
+
+- Python
+- Object-oriented programming
+- JSON
+- Pytest
+- Colorama
+
+## Getting Started
+
+### Requirements
+
+Python 3.9 or later is recommended.
+
+Install the dependencies:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install colorama pytest
+```
+
+### Run the game
+
+From the repository directory:
+
+```bash
 python main.py
 ```
 
-## Running the tests
+If a saved game exists, the game will offer the option to load it.
+
+### Run the tests
 
 ```bash
-pip install pytest
-python -m pytest tests/ -v
+python -m pytest test/ -v
 ```
 
-## Project structure
+## Available Commands
 
-```
-wizards-lair/
-├── main.py              # entry point, console I/O, colored output
+| Command | Description |
+|---|---|
+| `go <direction>` | Move north, south, east, or west |
+| `get <item>` | Pick up an item in the current room |
+| `inventory` or `i` | View collected items |
+| `look` | Review the current room |
+| `map` or `location` | View explored rooms |
+| `save` | Save current progress |
+| `help` or `?` | Display available commands |
+| `quit` or `exit` | Leave the game |
+
+## Project Structure
+
+```text
+Text_Based_Game/
+├── main.py
 ├── game/
-│   ├── entities.py       # Item, Room, Player classes
-│   ├── world.py          # the map: rooms, exits, item placement
-│   └── engine.py         # Game class: command parsing & state transitions
+│   ├── engine.py
+│   ├── entities.py
+│   └── world.py
 ├── test/
-│   └── test_engine.py    # pytest suite for the game engine
-└── requirements.txt
+│   └── test_engine.py
+├── requirements.txt
+└── README.md
 ```
 
-The engine (`game/engine.py`) is deliberately decoupled from `input()`/
-`print()` — `Game.execute_command()` takes a string and returns a string,
-which is what makes it straightforward to unit test and would make it easy
-to swap in a different front end (e.g. a web UI) later without touching the
-game logic.
+## Design Highlights
 
-## Possible next steps
+One of the main design decisions was separating the game engine from console input and output.
 
-- A web front end (Flask/HTML) reusing the same `Game` engine
-- Randomized item/room placement for replay-ability
-- A simple scoring system based on turns taken
+`Game.execute_command()` accepts a command string and returns a response string rather than directly reading from the keyboard or printing to the console. This makes the game logic easier to test independently and leaves room for a different interface in the future.
+
+The game also uses JSON serialization to preserve player location, inventory, and exploration progress between sessions.
+
+## Future Improvements
+
+- Add a graphical or web-based interface while reusing the game engine.
+- Introduce randomized room or item placement for replayability.
+- Add a scoring system based on turns or exploration.
+

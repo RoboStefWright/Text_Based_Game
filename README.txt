@@ -48,7 +48,7 @@ wizards-lair/
 │   ├── entities.py       # Item, Room, Player classes
 │   ├── world.py          # the map: rooms, exits, item placement
 │   └── engine.py         # Game class: command parsing & state transitions
-├── tests/
+├── test/
 │   └── test_engine.py    # pytest suite for the game engine
 └── requirements.txt
 ```

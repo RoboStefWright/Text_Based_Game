@@ -1,1 +1,1 @@
-requirements: colorama
+colorama
